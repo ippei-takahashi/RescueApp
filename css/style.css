@@ -1,0 +1,24 @@
+.img-row {
+	margin: 0 auto;
+	width: 900px;
+}
+
+.img-row ul {
+	float:left;
+}
+
+.img-row ul li {
+	width: 100px;
+	height: 100px;
+}
+
+.img-row ul li img {
+	width: 100px;
+	height: 100px;
+	display: block;
+}
+
+.sortable-placeholder {
+	width: 100px;
+	height: 100px;
+}
