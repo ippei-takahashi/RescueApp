@@ -35,7 +35,7 @@ section, footer, header, aside{
 	width: 100%;
 }
 #wrapper h1 {
-		margin-top:30px;
+		margin-bottom:30px;
 		text-align:center;
 }
 /*------------------------------------------------------------------------------------
@@ -69,6 +69,16 @@ section, footer, header, aside{
 	border-radius: 2px;	
 	padding:3px;
 	cursor:pointer;
+}
+#header .new{
+		text-align:center;
+		float:right;
+		width:30%;
+		max-height:130px;
+		margin:3% 5% 0 0;
+		overflow-y: auto;
+		position:relative;
+		color:#000;
 }
 /*-------------------------
 	The clocks
@@ -451,7 +461,7 @@ cursor:pointer;
      bottom: -9px;
      left: 5px;
  }
- #main .box2 {
+#main .box2 {
      position: relative;
      background: #ccc;
      height: 50px;
@@ -534,7 +544,7 @@ cursor:pointer;
 		left: 77%;
 }
 
- .tweet{
+.tweet{
 	 	clear:both;
 		text-align:center;
 		width:80%;
@@ -551,7 +561,7 @@ cursor:pointer;
 .tweet form input.submit{
 		padding:1% 5%;
 }
- .loginform{
+.loginform{
 		text-align:center;
 		width:30%;
 		position:absolute;
@@ -567,14 +577,14 @@ cursor:pointer;
 		margin-top:3%;
 		cursor:pointer;
 }
- .timeline{
+.timeline{
 		text-align:center;
 		width:60%;
 		position:relative;
 		left: 20%;
 		color:#000;
 }
- input.submit{
+input.submit{
 		padding:1% 5%;
 		cursor:pointer;
 }

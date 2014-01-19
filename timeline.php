@@ -60,7 +60,7 @@ $viewflag 		  = $loginflag + $tlflag;
             setTimeout("chat_get();",500);
         }
         
-        <? if ($viewflag == 2) : ?>
+        <? if ($viewflag >= 1) : ?>
             $(function(){
                 chat_get();
             });
@@ -86,6 +86,17 @@ $viewflag 		  = $loginflag + $tlflag;
     <? elseif ($viewflag == 1) : $tlflag =1; //TOP画面?>
             <div id="header">
   			  <input class="right_area"type="button" value="<?=$account[$key]['name'];?>&nbsp;－LOGOUT" onclick="MoveCheck();" />
+            <fieldset class="new">
+            <div>
+                <span id="reserve">
+                    <?
+                        if (!is_file($file_path)) {
+                            echo 'タイムラインログはありません。';
+                        }
+                    ?>
+                </span>
+            </div>
+            </fieldset>
 			</div>
 		<div id="clock" class="light">
 			<div class="display">
@@ -93,6 +104,7 @@ $viewflag 		  = $loginflag + $tlflag;
 				<div class="digits"></div>
 			</div>
 		</div>
+          
 		<div id="main">
 			<table class="window_bar">
 				<tr class="tweet_view">
@@ -220,7 +232,7 @@ $viewflag 		  = $loginflag + $tlflag;
 	</div>
         <div>
             <fieldset class="timeline">
-            <div class="tl_tweet">
+            <div>
                 <span id="reserve">
                     <?
                         if (!is_file($file_path)) {

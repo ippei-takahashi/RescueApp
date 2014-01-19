@@ -13,7 +13,7 @@ if ($_POST['mode'] == 'send' && $_POST['chat_body']) {
         ' . $_POST['chat_body'] . '</div>' . '<hr>'; 
     if (is_file($file_path)) {
         $chat_log = file_get_contents($file_path);
-        $chat_body =   $chat_log . $chat_body;
+        $chat_body =   $chat_body . $chat_log;
     }
     file_put_contents($file_path, $chat_body, LOCK_EX);
     echo 1;
