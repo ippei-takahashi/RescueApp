@@ -28,11 +28,11 @@ section, footer, header, aside{
 	text-align: left;
 	text-justify: inter-ideograph; /*IE*/
 	overflow-x: auto;
+	overflow-y: auto;
 	min-width: 100%;
 	position: relative;
 	height: 100%;
 	width: 100%;
-	margin-bottom:40px;
 }
 #wrapper h1 {
 		margin-top:30px;
@@ -45,9 +45,7 @@ section, footer, header, aside{
 	clear: both;
 	width: 100%;  
 	margin: 0 auto; 
-	margin-bottom:50px;
 	padding-top: 10px;
-	padding-bottom: 55px;
 	z-index: 10;
 }
 
@@ -58,7 +56,9 @@ section, footer, header, aside{
 	width: 100%;  
 	margin: 0 auto;
 }
-
+#header legend{
+	text-align:right;
+}
 #header input.right_area {
 	text-shadow: 2px 2px 3px #000000;
 	border:none;
@@ -68,6 +68,7 @@ section, footer, header, aside{
 	font-weight:bold;
 	border-radius: 2px;	
 	padding:3px;
+	cursor:pointer;
 }
 /*-------------------------
 	The clocks
@@ -348,6 +349,7 @@ section, footer, header, aside{
 input.move_tl {
 border:none;	
 text-shadow: 2px 2px 3px #000000;
+cursor:pointer;
 }
 #footer_inner ul li.move {
 		width:10%;
@@ -532,12 +534,22 @@ text-shadow: 2px 2px 3px #000000;
 		left: 77%;
 }
 
- .login{
+ .tweet{
 	 	clear:both;
 		text-align:center;
-		width:30%;
+		width:80%;
 		position:absolute;
-		left: 35%;
+		left: 10%;
+		padding-bottom:80px
+}
+.tweet input{
+		margin:1%;
+		border:none;
+		font-size: 18px;
+		cursor:pointer;
+}
+.tweet form input.submit{
+		padding:1% 5%;
 }
  .loginform{
 		text-align:center;
@@ -545,28 +557,35 @@ text-shadow: 2px 2px 3px #000000;
 		position:absolute;
 		top: 100px;
 		left: 35%;
+		font-size: 18px;
+		margin-top:5%;
+}
+.loginform input{
+		margin:1%;
+		border:none;
+		font-size: 18px;
+		margin-top:3%;
+		cursor:pointer;
 }
  .timeline{
 		text-align:center;
 		width:60%;
 		position:relative;
 		left: 20%;
+		color:#000;
 }
-fieldset.login input{
-		margin:1%;
-		border:none;
+ input.submit{
+		padding:1% 5%;
+		cursor:pointer;
 }
-fieldset.login form input.submit{
-		padding:1% 2%;
+.DrA {
+	background-color:#3F6;
+	margin:bottom:1%;
 }
-fieldset.loginform input{
-		margin:1%;
-		border:none;
+.DrB {
+	background-color:#FF6;
+	margin:bottom:1%;
 }
-fieldset.loginform form input.submit{
-		padding:1% 2%;
-}
-
 		
 
 /*------------------------------------------------------------------------------------

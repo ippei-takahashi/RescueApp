@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <meta cherset = "UTF-8">
-<link rel="stylesheet" href="css/base.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="css/layout.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="css/base.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/redmond/jquery-ui.css">
 <html lang="ja">
@@ -27,7 +27,7 @@ $viewflag 		  = $loginflag + $tlflag;
 ?>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script>
-        var account = {'1' : 'Dr.A', '2' : 'Dr.B'};
+        var account = {'1' : 'DrA', '2' : 'DrB'};
         
         function chat_send () {
             var chat_body = $('#chat_body').val();
@@ -73,7 +73,7 @@ $viewflag 		  = $loginflag + $tlflag;
             <legend>ログインフォーム</legend>
             <form action="<?=$_SERVER['PHP_SELF'];?>" method="post">
             アカウント名：
-            <select name="key">
+            <select name="key"> 
                 <? for ($i = 1; $i <= count($account); ++$i) : ?>
                     <option value="<?=$i;?>"><?=$account[$i]['name'];?></option>
                 <? endfor; ?>
@@ -85,7 +85,7 @@ $viewflag 		  = $loginflag + $tlflag;
         </fieldset>
     <? elseif ($viewflag == 1) : $tlflag =1; //TOP画面?>
             <div id="header">
-  			  <input class="right_area"type="button" value="LOGOUT" onclick="MoveCheck();" />
+  			  <input class="right_area"type="button" value="<?=$account[$key]['name'];?>&nbsp;－LOGOUT" onclick="MoveCheck();" />
 			</div>
 		<div id="clock" class="light">
 			<div class="display">
@@ -216,10 +216,11 @@ $viewflag 		  = $loginflag + $tlflag;
     </div>
     <? else : $tlflag =0;//タイムライン?>
     <div id="header">
-    <input class="right_area"type="button" value="LOGOUT" onclick="MoveCheck();" />
+    <input class="right_area" type="button" value="<?=$account[$key]['name'];?>&nbsp;－LOGOUT" onclick="MoveCheck();" />
 	</div>
         <div>
             <fieldset class="timeline">
+            <div class="tl_tweet">
                 <span id="reserve">
                     <?
                         if (!is_file($file_path)) {
@@ -227,21 +228,19 @@ $viewflag 		  = $loginflag + $tlflag;
                         }
                     ?>
                 </span>
+            </div>
             </fieldset>
         </div>
         <br>
-        
-        <fieldset class="login">
-            <legend><?=$account[$key]['name'];?>でログイン中</legend>
-            <form acthon="<?=$SERVER['PHP_SELF'];?>" method="post" name="chat_form">
-                <textarea name="chat_body" id="chat_body"></textarea><br />
+            <form class="tweet" acthon="<?=$SERVER['PHP_SELF'];?>" method="post" name="chat_form">
+                <textarea name="chat_body" id="chat_body" 	rows="3" cols="80"></textarea><br />
                 <input type="hidden" name="mode" value="send">
-                <input type="hidden" name="key" id="key" value="<?=$key;?>">
+                <input type="hidden" name="key" id="key" value="<?=$key;?>">                
                 <input type="hidden" name="loginid" value="<?=$loginid;?>">
                 <input type="hidden" name="loginpass" value="<?=$loginpass;?>">
                 <input type="button" class="submit"value="TWEET" onClick="return chat_send();">
             </form>
-        </fieldset>
+            
         </div><!-- end #main -->
     <div id="footer">
 	<div id="footer_inner">
@@ -252,7 +251,7 @@ $viewflag 		  = $loginflag + $tlflag;
                 <input type="hidden" name="loginpass" value="<?=$loginpass;?>">
                 <input type="hidden" name="tlflag" value="<?=$tlflag;?>">
                 <input type="submit" class="move_tl" value="TOP">
-                </form></li></li>
+                </form></li>
 				<li class="mode"><a href="#">MODE</a></li>
 				<li class="profile">PROFILE</li>
 				<li class="upload">UPLOAD</li>
