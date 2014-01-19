@@ -1,7 +1,23 @@
+.arrow_area ul {
+	margin: 0 auto;
+	width: 90%;
+	height:50px;
+	margin: 0% 5% 0% 5%;
+	position:relative;
+}
+
+.arrow_area ul li img {
+	width: 3%;
+	height: 50px;
+	display: block;
+	position:absolute;
+	float:left;
+}
+
 .img-row {
 	margin: 0 auto;
-	width: 80%;
-	margin: 0% 10% 0% 10%;
+	width: 90%;
+	margin: 0% 5% 0% 5%;
 }
 
 .img-row ul {

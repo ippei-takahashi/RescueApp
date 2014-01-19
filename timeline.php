@@ -3,6 +3,7 @@
 <link rel="stylesheet" href="css/layout.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="css/base.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="css/clock.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/redmond/jquery-ui.css">
 <html lang="ja">
 <head>
@@ -13,11 +14,12 @@
 <?
 error_reporting(E_ALL & ~E_NOTICE);
 include("./config.php");
+include("./bar_data.php");
 
 //データの受け取り
 $loginid             = ($_POST['loginid']) ? $_POST['loginid'] : '';
 $loginpass           = ($_POST['loginpass']) ? $_POST['loginpass'] : '';
-$key           	     = ($_POST['key']) ? $_POST['key'] : '';
+$key           	     =  $key_array[$loginid];
 $tlflag			 	 = ($_POST['tlflag']) ? $_POST['tlflag'] : '';
 
 //ログインチェック
@@ -26,28 +28,31 @@ $viewflag 		  = $loginflag + $tlflag;
 
 ?>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" src="js/get_time.js"></script>
     <script>
-        var account = {'1' : 'DrA', '2' : 'DrB'};
+        var account = {'1' : 'DrA', '2' : 'DrB', '3' : 'DrC'};
         
         function chat_send () {
             var chat_body = $('#chat_body').val();
+            var bar_body = $('#bar_body').val();
             var key = $('#key').val();
             if (chat_body == '' || chat_body == ' ' || chat_body == '　') {
                 alert('内容が入力されていません。');
                 return false;
             } else {
-                chat_ajax(chat_body, key);
+                chat_ajax(chat_body,bar_body, key);
             }
         }
         
-        function chat_ajax (chat_body, key) {
-            var data = {chat_body : chat_body, key : key, mode : 'send'};
+        function chat_ajax (chat_body,bar_body, key) {
+            var data = {chat_body : chat_body, bar_body : bar_body, key : key, mode : 'send'};
             $.ajax({
                 data : data, 
                 type : 'POST', 
                 url : './ajax.php', 
                 success : function(req) {
                     $('#chat_body').val('');
+                    $('#bar_body').val('');					
                 }
             });
         }
@@ -72,49 +77,65 @@ $viewflag 		  = $loginflag + $tlflag;
         <fieldset class="loginform">
             <legend>ログインフォーム</legend>
             <form action="<?=$_SERVER['PHP_SELF'];?>" method="post">
-            アカウント名：
-            <select name="key"> 
-                <? for ($i = 1; $i <= count($account); ++$i) : ?>
-                    <option value="<?=$i;?>"><?=$account[$i]['name'];?></option>
-                <? endfor; ?>
-            </select><br />
             ID：<input type="text" name="loginid"><br />
             PASS：<input type="text" name="loginpass"><br />
              <input type="hidden" name="tlflag" value="<?=$tlflag;?>">
             <input type="submit" class="submit" value="LOGIN">
         </fieldset>
     <? elseif ($viewflag == 1) : $tlflag =1; //TOP画面?>
+    
             <div id="header">
-  			  <input class="right_area"type="button" value="<?=$account[$key]['name'];?>&nbsp;－LOGOUT" onclick="MoveCheck();" />
-            <fieldset class="new">
-            <div>
-                <span id="reserve">
+  			<input class="right_area"type="button" value="<?=$account[$key]['name'];?>&nbsp;－LOGOUT" onclick="MoveCheck();" />
+            <fieldset>
+                <span id="reserve"  class="new">
                     <?
                         if (!is_file($file_path)) {
                             echo 'タイムラインログはありません。';
                         }
                     ?>
                 </span>
-            </div>
             </fieldset>
 			</div>
+            
 		<div id="clock" class="light">
 			<div class="display">
 				<div class="weekdays"></div>
 				<div class="digits"></div>
 			</div>
 		</div>
-          
+
+		<div id="arrowArea" class="arrow_area">            
+        	<ul>
+
+
+				<? for ($i = 1; $i <= count($bar)-1; ++$i) : 
+				$hour = substr($bar[$i],8,2);
+				$hour_now = date('H');
+				if($hour_now < 5 && $hour >= 19){
+				$hour = $hour - $hour_now - 19;
+				}else{
+				$hour =  $hour - $hour_now + 5;
+				}
+				$min  = substr($bar[$i],10,1);
+				$pos  = floor(100/6 * $hour + 25/9 * $min);
+				$pos_array  = $pos_array . $pos; 
+				?>
+                <li><script type="text/javascript">			
+                document.write('<img class="arrow<?=$pos;?>"src="img/icon/arrow.png">');
+				</script>
+                <style type="text/css">
+				.arrow_area ul li img.arrow<?=$pos;?> {
+				left:<?=$pos;?>%;
+				}
+				</style>
+				</li>
+				<? endfor; ?> 	
+
+                
+			</ul>  
+        </div>
 		<div id="main">
 			<table class="window_bar">
-				<tr class="tweet_view">
-					<td><a href="#"><div class="box">!!!!!</div></a></td>
-					<td><a href="#"><div class="box2">!!!!!</div></a></td>
-					<td><a href="#"><div class="box2">!!!!!</div></a></td>
-					<td><a href="#"><div class="box">!!!!!</div></a></td>
-					<td></td>
-					<td></td>
-				</tr>
 				<tr>
 					<td class="green">&nbsp;</td>
 					<td class="yellow">&nbsp;</td>
@@ -124,12 +145,12 @@ $viewflag 		  = $loginflag + $tlflag;
 					<td class="yellow">&nbsp;</td>
 				</tr>
 				<tr>
-					<td><p class="time">21:00</p></td>
-					<td><p class="time">22:00</p></td>
-					<td><p class="time">23:00</p></td>
-					<td><p class="time">24:00</p></td>
-					<td><p class="time">25:00</p></td>
-					<td><p class="time">26:00</p></td>
+					<td><p class="time"><script type="text/javascript">get_hour(5);</script></p></p></td>
+					<td><p class="time"><script type="text/javascript">get_hour(4);</script></p></p></td>
+					<td><p class="time"><script type="text/javascript">get_hour(3);</script></p></p></td>
+					<td><p class="time"><script type="text/javascript">get_hour(2);</script></p></p></td>
+					<td><p class="time"><script type="text/javascript">get_hour(1);</script></p></p></td>
+					<td><p class="time"><script type="text/javascript">get_hour(0);</script></p></td>
 				</tr>
 			</table>
 		</div>
