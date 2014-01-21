@@ -12,10 +12,19 @@ var RescueApp = function() {
 window.RescueApp = new RescueApp();
 
 Builder.prototype.init = function() {
+	var self = this;
 	this.draggableSelector = "#imgRow ul li";
 	this.sortableSelector = "#imgRow ul";
+	this.overlay = $("#overlay");
+	this.wrapper = $("#wrapper");
+	this.timeline = $($("#main table tbody tr")[1]);
+
 	this.initDraggable();
 	this.initSortable();
+	this.resizeOverlay();
+	$(window).resize(function(){
+		self.resizeOverlay();
+	});
 };
 
 Builder.prototype.initDraggable = function() {
@@ -27,6 +36,7 @@ Builder.prototype.initDraggable = function() {
 		},
 		stop: function(event, ui) {
 			self.stopHandler(ui.helper);
+			self.drawOverlay();
 		},
 		revert: "invalid"
 	});
@@ -45,6 +55,7 @@ Builder.prototype.initSortable = function() {
 		},
 		stop: function(event, ui) {
 			self.stopHandler(ui.item);
+			self.drawOverlay();
 		},
 		tolerance : "pointer"
 	});
@@ -63,8 +74,39 @@ Builder.prototype.startHandler = function(item) {
 Builder.prototype.stopHandler = function(item) {
 	item.css("position", "relative");
 	item.css("display", "block");
-	item.css("z-index", "1");
+	item.css("z-index", "1000");
 	item.removeClass("ui-draggable-dragging ui-sortable-helper");
 }
 
+Builder.prototype.resizeOverlay = function() {
+	this.overlay.attr("height", this.wrapper.height());
+	this.overlay.attr("width", this.wrapper.width());
+	this.drawOverlay();
+}
+
+Builder.prototype.drawOverlay = function() {
+	if (!this.overlay || !overlay.getContext) {
+		return false;
+	}
+	var ctx = overlay.getContext('2d');
+	var offset = this.timeline.offset();
+	var bottom = offset.top + this.timeline.height();
+	var left = offset.left;
+	var width = this.timeline.width();
+
+	ctx.beginPath();
+	ctx.clearRect(0, 0, this.overlay.width(), this.overlay.height());
+
+
+	$("#imgRow ul li div").each(function() {
+		var $this = $(this);
+		var time = $this.data("time");
+		var timeRatio = (time.split(":")[0] - 21) * 60 + (time.split(":")[1] - 0);
+		ctx.moveTo(timeRatio * width / 360, bottom);
+		ctx.lineTo($this.offset().left + $this.width() / 2, $this.offset().top);
+	});
+
+	ctx.closePath();
+	ctx.stroke();
+}
 
