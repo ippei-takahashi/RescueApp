@@ -23,6 +23,7 @@ Builder.prototype.init = function() {
 	this.timeline = $($("#main table tbody tr")[1]);
 	this.dialog = $("#dialog");
 	this.dialogImg = $("#dialog img")[0];
+	this.footer = $("#footer");
 	this.dialogOpened = false;
 
 	this.initDraggable();
@@ -44,7 +45,7 @@ Builder.prototype.initDraggable = function() {
 		},
 		stop: function(event, ui) {
 			self.stopHandler(ui.helper);
-			self.drawOverlay();
+			setTimeout(self.drawOverlay, 20, self);
 		},
 		revert: "invalid"
 	});
@@ -63,7 +64,7 @@ Builder.prototype.initSortable = function() {
 		},
 		stop: function(event, ui) {
 			self.stopHandler(ui.item);
-			self.drawOverlay();
+			setTimeout(self.drawOverlay, 20, self);
 		},
 		tolerance : "pointer"
 	});
@@ -87,31 +88,35 @@ Builder.prototype.stopHandler = function(item) {
 };
 
 Builder.prototype.resizeOverlay = function() {
-	this.overlay.attr("height", this.wrapper.height());
+	var top = this.timeline.height() + this.timeline.offset().top;
+	var height = this.wrapper.height() - top - this.footer.height();
+	this.overlay.attr("height", height);
 	this.overlay.attr("width", this.wrapper.width());
+	this.overlay.css("top", top + "px");
 	this.drawOverlay();
 };
 
 Builder.prototype.drawOverlay = function() {
-	if (!this.overlay || !overlay.getContext) {
+	var self = arguments.length ? arguments[0] : this;
+	if (!self.overlay || !overlay.getContext) {
 		return false;
 	}
 	var ctx = overlay.getContext('2d');
-	var offset = this.timeline.offset();
-	var bottom = offset.top + this.timeline.height();
+	var offset = self.timeline.offset();
+	var bottom = offset.top + self.timeline.height();
 	var left = offset.left;
-	var width = this.timeline.width();
+	var width = self.timeline.width();
 
 	ctx.beginPath();
-	ctx.clearRect(0, 0, this.overlay.width(), this.overlay.height());
+	ctx.clearRect(0, 0, self.overlay.width(), self.overlay.height());
 
 
 	$("#imgRow ul li div").each(function() {
 		var $this = $(this);
 		var time = $this.data("time");
 		var timeRatio = (time.split(":")[0] - 21) * 60 + (time.split(":")[1] - 0);
-		ctx.moveTo(timeRatio * width / 360, bottom);
-		ctx.lineTo($this.offset().left + $this.width() / 2, $this.offset().top);
+		ctx.moveTo(timeRatio * width / 360, 0);
+		ctx.lineTo($this.offset().left + $this.width() / 2, $this.offset().top - bottom);
 	});
 
 	ctx.closePath();
