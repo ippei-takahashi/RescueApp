@@ -98,7 +98,7 @@ Builder.prototype.startHandler = function(item) {
 Builder.prototype.stopHandler = function(item) {
 	item.css("position", "relative");
 	item.css("display", "block");
-	item.css("z-index", "1000");
+	item.css("z-index", "200");
 	item.removeClass("ui-draggable-dragging ui-sortable-helper");
 };
 
@@ -137,7 +137,7 @@ Builder.prototype.drawOverlay = function() {
 	ctx.stroke();
 
 	$(self.draggableSelector).css("z-index", 100);
-	self.draggableImages.parent().parent().css("z-index", 200);
+	$("#imgRow ul li div img").parent().parent().css("z-index", 200);
 };
 
 Builder.prototype.initDialog = function() {
