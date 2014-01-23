@@ -13,10 +13,12 @@
 	<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/redmond/jquery-ui.css">
 </head>
 <body>
-	<canvas id="overlay" style="position: absolute; z-index: 100;">
+	<canvas id="overlay" style="position: absolute; z-index: 150;">
 	</canvas>
-	<div id="dialog" style="display:none; position:absolute; z-index:300; width:400px; height: 500px; top:50px; left:50%; margin-left:-300px;">
-		<img src="" style="display:block; height:80%; width:100%">
+	<div id="dialog" style="display:none; position:absolute; z-index:300; width:400px; height: 420px; top:50px; left:50%; margin-left:-300px;">
+		<canvas id="canvas" height=400 width=400 style="position: absolute; z-index: 350;">
+		</canvas>
+		<img src="" style="display:block; height:400px; width:400px">
 		<input id="range" type="range" value="0" style="width:100%">
 	</div>
 	<div id="wrapper">
@@ -56,7 +58,7 @@
 		</div>
 		<div id="imgRow" class="img-row">
 			<ul>
-				<li><div data-time="21:45"><img src="img/0/0000.jpg"></div></li>
+				<li><div data-time="21:45" data-max="95"><img src="img/0/0000.jpg"></div></li>
 				<li></li>			
 				<li></li>			
 				<li></li>		
@@ -64,7 +66,7 @@
 				<li></li>
 			</ul>
 			<ul>
-				<li><div data-time="22:07"><img src="img/1/0000.jpg"></div></li>
+				<li><div data-time="22:07" data-max="0"><img src="img/1/0000.jpg"></div></li>
 				<li></li>			
 				<li></li>			
 				<li></li>		
@@ -72,7 +74,7 @@
 				<li></li>
 			</ul>
 			<ul>
-				<li><div data-time="23:18"><img src="img/2/0000.jpg"></div></li>
+				<li><div data-time="23:18" data-max="128"><img src="img/2/0000.jpg"></div></li>
 				<li></li>			
 				<li></li>			
 				<li></li>		
@@ -80,7 +82,7 @@
 				<li></li>
 			</ul>
 			<ul>
-				<li><div data-time="24:23"><img src="img/3/0000.jpg"></div></li>
+				<li><div data-time="24:23" data-max="30"><img src="img/3/0000.jpg"></div></li>
 				<li></li>			
 				<li></li>			
 				<li></li>		
@@ -141,7 +143,7 @@
 	</div>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.0.0/moment.min.js"></script>
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="js/clock.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
 </body>

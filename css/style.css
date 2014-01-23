@@ -18,18 +18,15 @@
 	margin: 0 auto;
 	width: 90%;
 	margin: 0% 5% 0% 5%;
-	z-index: 200;
 }
 
 .img-row ul {
 	float:left;
-	z-index: 200;
 }
 
 .img-row ul li {
 	width: 100px;
 	height: 100px;
-	z-index: 200;
 }
 
 .img-row ul li img {

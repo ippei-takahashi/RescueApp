@@ -18,6 +18,7 @@ Builder.prototype.init = function() {
 	this.draggableImages = $("#imgRow ul li div img");
 
 	this.overlay = $("#overlay");
+	this.canvas = $("#canvas");
 	this.wrapper = $("#wrapper");
 	this.range = $("#range");
 	this.timeline = $($("#main table tbody tr")[1]);
@@ -29,7 +30,21 @@ Builder.prototype.init = function() {
 	this.initDraggable();
 	this.initSortable();
 	this.initDialog();
+	this.initCanvas();
 
+	this.range.on("change", function() {
+		var oldSrc = self.dialogImg.src;
+		var root = "img/" + oldSrc.split("/")[oldSrc.split("/").length - 2] + "/";
+		var fileName = this.value + "";
+		while(true) {
+			if (fileName.length >= 4) {
+				break;
+			}
+			fileName = "0" + fileName; 
+		}
+		fileName += "." + oldSrc.split(".")[1];
+		self.dialogImg.src = root + fileName;
+	});
 	this.resizeOverlay();
 	$(window).resize(function(){
 		self.resizeOverlay();
@@ -110,7 +125,6 @@ Builder.prototype.drawOverlay = function() {
 	ctx.beginPath();
 	ctx.clearRect(0, 0, self.overlay.width(), self.overlay.height());
 
-
 	$("#imgRow ul li div").each(function() {
 		var $this = $(this);
 		var time = $this.data("time");
@@ -121,6 +135,9 @@ Builder.prototype.drawOverlay = function() {
 
 	ctx.closePath();
 	ctx.stroke();
+
+	$(self.draggableSelector).css("z-index", 100);
+	self.draggableImages.parent().parent().css("z-index", 200);
 };
 
 Builder.prototype.initDialog = function() {
@@ -133,20 +150,18 @@ Builder.prototype.initDialog = function() {
 	});
 };
 
-Builder.prototype.initScroll = function() {
-	this.dialog[0].onscroll = function() {
-		var scroll = this.scrollTop;
-		var range = this.scrollHeight - this.offsetHeight;
-		console.log(scroll);
-		console.log(range);
-	}
-};
-
 Builder.prototype.openDialog = function(img) {
 	if(!this.dialogOpened) {
 		this.dialogOpened = true;
 		this.dialog.css("display", "");
-		this.dialogImg.src = img.src;		
+		this.dialogImg.src = img.src;
+		var max = $(img).parent().data("max");
+		this.range.attr("max", max);
+		if (max === 0) {
+			this.range.css("display", "none");
+		} else {
+			this.range.css("display", "");
+		}
 	}
 };
 
@@ -155,4 +170,33 @@ Builder.prototype.closeDialog = function() {
 		this.dialogOpened = false;
 		this.dialog.css("display", "none");
 	}
+};
+
+Builder.prototype.initCanvas = function() {
+	var self = this, drawFlag = false, oldX, oldY;
+	this.canvas.on("mousedown", function(e){
+		drawFlag = true;
+		var rect = e.target.getBoundingClientRect();
+		oldX = e.clientX - rect.left;
+		oldY = e.clientY - rect.top;
+	});
+	this.canvas.on("mouseup", function(){
+		drawFlag = false;
+	});
+	this.canvas.on("mousemove", function (e){
+		if (!drawFlag) return;
+		var rect = e.target.getBoundingClientRect();
+		var x = e.clientX - rect.left;
+		var y = e.clientY - rect.top;;
+		var context = this.getContext("2d");
+		context.strokeStyle = "rgba(255,0,0,1)";
+		context.lineWidth = 1;
+		context.beginPath();
+		context.moveTo(oldX, oldY);
+		context.lineTo(x, y);
+		context.closePath();
+		context.stroke();
+		oldX = x;
+		oldY = y;
+	});
 };
