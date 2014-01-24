@@ -138,6 +138,9 @@ Builder.prototype.drawOverlay = function() {
 
 	$(self.draggableSelector).css("z-index", 100);
 	$("#imgRow ul li div img").parent().parent().css("z-index", 200);
+	$("#imgRow ul li div img").on("click", function(){
+		self.openDialog(this);
+	});
 };
 
 Builder.prototype.initDialog = function() {
