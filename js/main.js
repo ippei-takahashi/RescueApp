@@ -42,7 +42,7 @@ Builder.prototype.init = function() {
 			}
 			fileName = "0" + fileName; 
 		}
-		fileName += "." + oldSrc.split(".")[1];
+		fileName += "." + oldSrc.split(".")[oldSrc.split(".").length - 1];
 		self.dialogImg.src = root + fileName;
 	});
 	this.resizeOverlay();
